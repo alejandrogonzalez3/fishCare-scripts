@@ -1,19 +1,29 @@
 import serial
 
+import requests
+import json
+
 arduino = serial.Serial('/dev/ttyACM0', 115200)
 
 print("Starting!")
 
 while True:
-      # comando = input('Introduce un comando: ') #Input
-      # arduino.write(comando.encode()) #Mandar un comando hacia Arduino
-      # if comando == 'H':
-      #       print('LED ENCENDIDO')
-      # elif comando == 'L':
-      #      print('LED APAGADO')
+      # Authentication
+      # authenticate = requests.post(authenticateUrl, params = {'username':username, 'password':password})
+      # print("Token: %s" % authenticate.text)
             
       if arduino.in_waiting > 0:
             line = arduino.readline().decode('utf-8').rstrip()
-            print(line)
+            # print(line)
+            if "ppm" in line:
+                  # r = requests.post(temperatureUrl, data = {'value':tds}, headers={"content-type":"json", "apiToken":apiToken})
+                  # r = requests.post(temperatureUrl, params = {'sensorName':'tds', 'value':line})
+                  # print("TDS POST response: %s" % r.status_code)
+                  print("TDS Value:", line)
+            if "pH" in line:
+                  # r = requests.post(temperatureUrl, data = {'value':pH}, headers={"content-type":"json", "apiToken":apiToken})
+                  # r = requests.post(temperatureUrl, params = {'sensorName':'pH', 'value':line})
+                  # print("pH POST response: %s" % r.status_code)
+                  print("pH Value:", line)
 
 arduino.close() #Finalizamos la comunicacion

@@ -5,6 +5,14 @@ import json
 
 arduino = serial.Serial('/dev/ttyACM0', 115200)
 
+baseUrl = "http://localhost:8080"
+
+authenticateUrl = baseUrl + "/user/login"
+temperatureUrl = baseUrl + "/sensorValue/store"
+
+username = "string"
+password = "string"
+
 print("Starting!")
 
 while True:

@@ -1,5 +1,18 @@
 #!/usr/bin/env python3
 
+# https://www.raspberrypi.org/forums/viewtopic.php?t=118230
+
+# Connection schema:
+# Red ------------- 5V
+#
+#            +----- 3V3
+#            |
+#           10K
+#            |
+# Yellow ----+----- gpio
+#
+# Black ----------- Ground
+
 import RPi.GPIO as GPIO
 import time, sys
 

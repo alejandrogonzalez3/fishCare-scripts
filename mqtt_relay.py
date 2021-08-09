@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Notas de autor: 
+# Notas de autor:
 # 1.- O Relé ten que estar a 3.3v para funcionar.
 # 2.- Os pins están en BCM, polo tanto hai que conectar ao GPIO 17, pin 11 (6º comezando dende arriba, fila da esquerda)
 
@@ -8,6 +8,7 @@ import paho.mqtt.client as mqtt
 import RPi.GPIO as GPIO
 
 RELAY_1_GPIO = 17
+RELAY_2_GPIO = 27
 
 # The callback for when the client connects to the broker
 def on_connect(client, userdata, flags, rc):
@@ -24,10 +25,17 @@ def on_message(client, userdata, msg):
             GPIO.output(RELAY_1_GPIO, GPIO.LOW)
         elif "off" in decodedString:
             GPIO.output(RELAY_1_GPIO, GPIO.HIGH)
+    elif "water_pump" in msg.topic:
+        if "on" in decodedString:
+            GPIO.output(RELAY_2_GPIO, GPIO.LOW)
+        elif "off" in decodedString:
+            GPIO.output(RELAY_2_GPIO, GPIO.HIGH)
+
 
 try:
     GPIO.setmode(GPIO.BCM) # GPIO Numbers instead of board numbers
     GPIO.setup(RELAY_1_GPIO, GPIO.OUT, initial = GPIO.HIGH) # GPIO Assign mode
+    GPIO.setup(RELAY_2_GPIO, GPIO.OUT, initial = GPIO.HIGH) # GPIO Assign mode
 
     client = mqtt.Client()
     client.on_connect = on_connect  # Define callback function for successful connection

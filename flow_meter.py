@@ -15,14 +15,15 @@
 
 import RPi.GPIO as GPIO
 import time, sys
+import requests
 
 baseUrl = "http://localhost:8080"
 
 authenticateUrl = baseUrl + "/user/login"
-temperatureUrl = baseUrl + "/sensorValue/store"
+flowUrl = baseUrl + "/sensorValue/store"
 
-username = "string"
-password = "string"
+username = "alex"
+password = "alex"
 
 FLOW_SENSOR = 23
 
@@ -38,12 +39,12 @@ def countPulse(channel):
    flow = count / (60 * 7.5)
    # print(f'The flow is: {flow:.2f}')
    print("Have flow")
-   
+
    # authenticate = requests.post(authenticateUrl, params = {'username':username, 'password':password})
    # print("Token: %s" % authenticate.text)
    # r = requests.post(temperatureUrl, data = {'value':temperature}, headers={"content-type":"json", "apiToken":apiToken})
-   #r = requests.post(temperatureUrl, params = {'sensorName':'temperatura', 'value':temperature})
-   #print("Temperature POST response: %s" % r.status_code)
+   r = requests.post(flowUrl, params = {'sensorName':'waterPump', 'value':1, 'hatcheryId': '1'})
+   print("WaterPump POST response: %s" % r.status_code)
    GPIO.cleanup()
    sys.exit()
 
@@ -56,8 +57,8 @@ while True:
         # authenticate = requests.post(authenticateUrl, params = {'username':username, 'password':password})
         # print("Token: %s" % authenticate.text)
         # r = requests.post(temperatureUrl, data = {'value':temperature}, headers={"content-type":"json", "apiToken":apiToken})
-        #r = requests.post(temperatureUrl, params = {'sensorName':'temperatura', 'value':temperature})
-        #print("Temperature POST response: %s" % r.status_code)
+        r = requests.post(flowUrl, params = {'sensorName':'waterPump', 'value':0, 'hatcheryId': '1'})
+        print("Temperature POST response: %s" % r.status_code)
         GPIO.cleanup()
         sys.exit()
 

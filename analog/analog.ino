@@ -27,18 +27,24 @@ void loop()
     //temperature = readTemperature();         // read your temperature sensor to execute temperature compensation
     voltage = analogRead(PH_PIN)/1024.0*5000;  // read the voltage
     phValue = ph.readPH(voltage,temperature);  // convert voltage to pH with temperature compensation
-    Serial.print("pH:");
-    Serial.println(phValue,2);
+    Serial.print("pH: ");
+    if (isnan(phValue)) {
+      Serial.println(0);
+    }
+    else {
+      Serial.println(phValue,2);
+    }
     
     //temperature = readTemperature();          // read your temperature sensor to execute temperature compensation
     voltage = analogRead(EC_PIN)/1024.0*5000;   // read the voltage
     ecValue =  ec.readEC(voltage,temperature);  // convert voltage to EC with temperature compensation
     Serial.print("EC: ");
-    Serial.print(ecValue);
-    Serial.println("ms/cm");
+    Serial.println(ecValue);
 
-    Serial.print(DO.read_do_percentage());
-    Serial.println("%");
+    Serial.print("dO: ");
+    Serial.println(DO.read_do_percentage());
+
+    Serial.flush();
 
     delay(10000);
 }
